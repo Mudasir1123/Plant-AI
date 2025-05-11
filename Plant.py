@@ -33,6 +33,8 @@ languages = {
     "Torwali": "توروالی",
     "Burushaski": "بروشسکی",
 }
+
+# Select Language
 selected_language = st.selectbox("🌍 اپنی زبان منتخب کریں | Select your language:", list(languages.keys()))
 
 # 🔹 Streamlit UI
@@ -44,7 +46,7 @@ uploaded_image = st.file_uploader("📸 تصویر اپ لوڈ کریں (JPG, PN
 
 if uploaded_image:
     image = Image.open(uploaded_image)
-    st.image(image, caption="📷 اپ لوڈ شدہ تصویر", use_column_width=True)
+    st.image(image, caption="📷 اپ لوڈ شدہ تصویر", use_container_width=True)  # Updated to use_container_width
 
     # 🔹 AI Analysis
     st.info("🔍 پودے کی صحت کا تجزیہ کیا جا رہا ہے...")
@@ -56,8 +58,10 @@ if uploaded_image:
 
         The image contains a close-up of a plant leaf. Check for any disease symptoms such as spots, discoloration, or mold.
         """
+        # Send request to the model
         response = gemini_model.generate_content([prompt, image])
 
+        # Handle response
         if response and hasattr(response, "text") and response.text.strip():
             st.success("✅ AI کا تجزیہ مکمل ہو گیا!")
             st.markdown(f"### 🌱 بیماری اور علاج ({selected_language}):")
